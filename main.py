@@ -95,7 +95,6 @@ if not hasAcc:
         password = input('Type in the password for the account: ')
         balance = float(input('Type in the initial balance for the account: '))
         create_account(cursor, username, email, password, balance)
-        fetch_all_accounts(cursor)
         connection.commit()
     else:
         print('Thank you for using our bank!')
