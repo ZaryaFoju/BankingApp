@@ -5,6 +5,7 @@ import sqlite3
 connection = sqlite3.connect('banksystem.db')
 cursor = connection.cursor()
 
+#Display UI
 def display_menu(username):
     print('Welcome,', username)
     print('')
@@ -17,15 +18,16 @@ def display_menu(username):
     print('5. Modify Account')
     print('========================')
 
+#Basic Create Account Function
 def create_account(cursor, username, email, password, balance):
     cursor.execute('''INSERT INTO accounts (username, email, password, balance) VALUES (?, ?, ?, ?)''',
                     (username, email, password, balance))
 
-
+#Delete Account Function
 def delete_account(cursor, username):
     cursor.execute('''DELETE FROM accounts WHERE username = ?''', (username,))
 
-
+#Check Balance Function
 def check_balance():
     password = input('Type in the password for your account: ')
     cursor.execute('''SELECT password, balance FROM accounts WHERE username = ?''', (username,))
@@ -35,6 +37,7 @@ def check_balance():
     else:
         print('Incorrect password, try again or select another option')
 
+#Deposit Function
 def deposit(username):
     amount = float(input('Enter the amount you want to deposit: '))
     cursor.execute('''SELECT balance FROM accounts WHERE username = ?''', (username,))
@@ -53,6 +56,7 @@ def withdraw(username):
   connection.commit()
   print('Withdraw successful. New balance:', new_balance)
 
+#Modifying Account
 def modify_account(username):
   modifyAcc = input('Enter what you want to modify in the account: ')
   replace = input('Enter value to replace it: ')
@@ -65,14 +69,14 @@ def modify_account(username):
   cursor.execute(query, (replace, username))
   connection.commit()
   print('Data has been modified.')
-
+#Function to check if database has been updated
 def fetch_all_accounts(cursor):
     cursor.execute('SELECT * FROM accounts')
     print(cursor.fetchall())
     accounts = cursor.fetchall()
     return accounts
 
-
+#Create account if not in database
 username = input('Type in the username for the account: ')
 cursor.execute('SELECT username FROM accounts WHERE username = ?', (username,))
 usernames = cursor.fetchall()
